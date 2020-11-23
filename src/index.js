@@ -76,7 +76,7 @@ exports.pushStream = async (
   if (toRemove.length > 0) {
     if (useBulk === true) {
       const bodyDelete = flatMap(toRemove, (doc) => [{ delete: { _index: doc.index, _id: doc.id } }])
-      await es.bulk({ refresh: toRemove[0].refresh, body: bodyDelete })
+      await es.bulk({ index, type, refresh: toRemove[0].refresh, body: bodyDelete })
     } else {
       for (const doc of toRemove) {
         const { index, type, id, refresh } = doc
@@ -94,7 +94,7 @@ exports.pushStream = async (
         { update: { _index: doc.index, _id: doc.id, _type: doc.type } },
         { doc: doc.body, doc_as_upsert: true }
       ])
-      await es.bulk({ toUpsert: toUpsert[0].refresh, body: updateBody })
+      await es.bulk({ index, type, refresh: toUpsert[0].refresh, body: updateBody })
     } else {
       for (const doc of toUpsert) {
         const { index, type, id, body, refresh } = doc

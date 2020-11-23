@@ -21,6 +21,6 @@ module.exports = async (node, testMode, options) => {
     remove: ({ index, type, id, refresh }) => es.delete({ index, type, id, refresh }),
     exists: ({ index, type, id, refresh }) => es.exists({ index, type, id, refresh }),
     indicesDelete: (index = '_all') => es.indices.delete({ index }),
-    bulk: ({ refresh = true, body }) => es.bulk({ refresh, body })
+    bulk: ({ refresh = true, body, type, index }) => es.bulk({ refresh, body, type, index })
   }
 }
